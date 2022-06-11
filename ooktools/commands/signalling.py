@@ -81,7 +81,7 @@ def search(start_frequency, end_frequency, baud, increment, framecount):
     while not keystop():
 
         # Read packets 'framecount' amount of times
-        for framecounter in xrange(0, framecount):
+        for framecounter in range(0, framecount):
 
             # Status Update. Spacing is to match up with the previously
             # echoed 'lables'.
@@ -97,7 +97,7 @@ def search(start_frequency, end_frequency, baud, increment, framecount):
 
                 # Get a packet from the RFcat radio
                 pkt, _ = d.RFrecv(timeout=1000)
-                packet = pkt.encode('hex')
+                packet = pkt.hex()
 
                 # If we have a 'valid' packet, append it as a frame
                 # to the frequency. A valid packet is defined as one
@@ -187,7 +187,7 @@ def record(frequency, baud, framecount, destination):
     click.secho('For maximum frames, press and release the remote multiple times.', fg='green')
 
     # Capture frames!
-    for c in xrange(0, framecount):
+    for c in range(0, framecount):
         oneline_print('Progress [{}/{}] Frames: {}'.format(c, framecount, len(payload['frames'])))
 
         # This try/except is just to catch the UsbTimeout
@@ -197,7 +197,7 @@ def record(frequency, baud, framecount, destination):
 
             # Get a packet from the RFcat radio
             pkt, _ = d.RFrecv(timeout=1000)
-            packet = pkt.encode('hex')
+            packet = pkt.hex()
 
             # If we have a 'valid' packet, append it as a frame
             # to the frequency. A valid packet is defined as one
@@ -215,7 +215,7 @@ def record(frequency, baud, framecount, destination):
     d.setModeIDLE()
 
     click.secho('Writing saved payload to: {}'.format(destination), bold=True)
-    with open(destination, 'wb') as f:
+    with open(destination, 'w', encoding="utf8") as f:
         f.write(json.dumps(payload))
 
     return
@@ -291,7 +291,7 @@ def send_binary(frequency, prefix, suffix, baud, repeat, data, full):
 
     # Print some information about what we have so far
     click.secho('RF data packet length: {}'.format(len(rf_data)), fg='green')
-    click.secho('Packet as hex:         {}'.format(rf_data.encode('hex')), fg='green')
+    click.secho('Packet as hex:         {}'.format(rf_data.hex()), fg='green')
     click.secho('Preparing radio', fg='yellow')
 
     # Setup the Radio

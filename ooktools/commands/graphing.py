@@ -158,7 +158,7 @@ def generage_saved_recording_graphs(source, count, series):
             ax.grid(True)
 
         # Plot the data
-        plt.plot(numpy.frombuffer(buffer=str(frame), dtype=numpy.int16))
+        plt.plot(numpy.frombuffer(buffer=str(frame).encode("utf8"), dtype=numpy.int16))
 
     # Show the plot!
     click.secho('Launching the graphs!')
